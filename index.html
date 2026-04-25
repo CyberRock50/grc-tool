@@ -229,7 +229,7 @@ async function fire(tab){
   box.className='result';
   box.innerHTML='<div class="loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span style="margin-left:4px">Researching…</span></div>';
   try{
-    const r=await fetch('/api/chat',{
+    const r = await fetch('/.netlify/functions/chat', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
