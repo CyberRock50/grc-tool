@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GRC Career Intelligence</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,sans-serif;background:#f9f9f8;color:#1a1a1a;font-size:15px;line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+  h1{font-size:20px;font-weight:600;margin-bottom:4px}
+  .sub{font-size:13px;color:#666;margin-bottom:1.25rem}
+  .badge{background:#e8f0fe;color:#1a56db;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.25rem}
+  .stat{background:#fff;border:1px solid #e5e5e3;border-radius:10px;padding:.65rem .9rem}
+  .stat .lbl{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+  .stat .val{font-size:13px;font-weight:600;line-height:1.3}
+  .stat .hint{font-size:11px;color:#999;margin-top:2px}
+  .tabs{display:flex;gap:0;border-bottom:1px solid #e5e5e3;margin-bottom:1.25rem;overflow-x:auto}
+  .tab{padding:9px 14px;font-size:13px;border:none;background:transparent;cursor:pointer;color:#888;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color .12s}
+  .tab:hover{color:#1a1a1a}
+  .tab.active{color:#1a1a1a;border-bottom-color:#1a1a1a;font-weight:600}
+  .pane{display:none}
+  .pane.active{display:block}
+  .row{display:flex;gap:8px;margin-bottom:.75rem}
+  .row input{flex:1;padding:9px 12px;font-size:14px;border:1px solid #ddd;border-radius:8px;background:#fff;min-width:0}
+  .row input:focus{outline:none;border-color:#999}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.9rem}
+  .chip{padding:5px 13px;font-size:12px;border:1px solid #ddd;border-radius:20px;cursor:pointer;background:#fff;color:#555;transition:all .12s}
+  .chip:hover{background:#f0f0f0;color:#1a1a1a}
+  .chip.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+  .chip:active{transform:scale(0.96)}
+  .btn{padding:9px 18px;font-size:13px;font-weight:600;border:none;border-radius:8px;background:#1a1a1a;color:#fff;cursor:pointer;white-space:nowrap;transition:opacity .12s}
+  .btn:hover{opacity:.8}
+  .btn:active{transform:scale(0.97)}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+  .result{background:#fff;border:1px solid #e5e5e3;border-radius:12px;padding:1.1rem 1.25rem;font-size:14px;line-height:1.8;min-height:100px}
+  .result.empty{color:#aaa;font-size:13px;display:flex;align-items:center}
+  .result h3{font-size:14px;font-weight:600;margin:1rem 0 5px}
+  .result h3:first-child{margin-top:0}
+  .result ul{padding-left:1.1rem;margin:4px 0 10px}
+  .result li{margin-bottom:4px}
+  .result strong{font-weight:600}
+  .result a{color:#1a56db}
+  .loader{display:flex;align-items:center;gap:8px;color:#888;font-size:13px;padding:.5rem 0}
+  .dot{width:5px;height:5px;border-radius:50%;background:#aaa;animation:pulse 1.2s ease-in-out infinite}
+  .dot:nth-child(2){animation-delay:.18s}
+  .dot:nth-child(3){animation-delay:.36s}
+  @keyframes pulse{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+  .err{color:#c0392b;font-size:13px}
+  .skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem}
+  .scard{background:#fff;border:1px solid #e5e5e3;border-radius:10px;padding:.75rem 1rem}
+  .scard .from{font-size:11px;color:#888;margin-bottom:2px}
+  .scard .arr{font-size:11px;color:#bbb;margin:3px 0}
+  .scard .to{font-size:13px;font-weight:600}
+  .prow{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .prow .plbl{font-size:13px;flex:0 0 160px}
+  .pbar{flex:1;height:5px;background:#eee;border-radius:3px;overflow:hidden}
+  .pfill{height:100%;border-radius:3px;background:#1a1a1a}
+  .prow .pval{font-size:11px;color:#888;min-width:32px;text-align:right}
+  @media(max-width:560px){.stats{grid-template-columns:1fr 1fr}.skill-grid{grid-template-columns:1fr}.prow .plbl{flex:0 0 120px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>GRC Career Intelligence <span class="badge">AI-Powered</span></h1>
+  <p class="sub">Entry-level cybersecurity GRC job &amp; recruiter research — personalized to your profile</p>
+
+  <div class="stats">
+    <div class="stat"><div class="lbl">Profile</div><div class="val">Training Specialist</div><div class="hint">Allied Healthcare</div></div>
+    <div class="stat"><div class="lbl">Target</div><div class="val">GRC / Compliance Analyst</div><div class="hint">0–3 yrs exp</div></div>
+    <div class="stat"><div class="lbl">Key edge</div><div class="val">HIPAA compliance</div><div class="hint">Direct GRC relevance</div></div>
+    <div class="stat"><div class="lbl">Speed-to-hire</div><div class="val" style="color:#1a7a3c">High</div><div class="hint">Strong transferability</div></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('jobs',this)">Job opportunities</button>
+    <button class="tab" onclick="switchTab('recruiters',this)">Recruiters</button>
+    <button class="tab" onclick="switchTab('skills',this)">Skill mapping</button>
+    <button class="tab" onclick="switchTab('market',this)">Market insights</button>
+    <button class="tab" onclick="switchTab('plan',this)">Tactical plan</button>
+  </div>
+
+  <!-- JOBS -->
+  <div id="jobs" class="pane active">
+    <div class="row">
+      <input id="jobs-q" type="text" placeholder="e.g. Entry-level GRC Analyst roles in healthcare..." onkeydown="if(event.key==='Enter')fire('jobs')"/>
+      <button id="jobs-btn" class="btn" onclick="fire('jobs')">Search ↗</button>
+    </div>
+    <div class="chips">
+      <span class="chip" onclick="quick('jobs',this,'Find current entry-level GRC Analyst job openings with salary ranges and employer requirements')">Entry-level openings</span>
+      <span class="chip" onclick="quick('jobs',this,'Best companies hiring compliance analysts with healthcare and HIPAA background in 2025')">Healthcare compliance</span>
+      <span class="chip" onclick="quick('jobs',this,'Remote Risk Analyst and InfoSec GRC roles currently open with no degree requirement')">Remote risk roles</span>
+      <span class="chip" onclick="quick('jobs',this,'What certifications do employers most require for entry-level GRC roles in 2025')">Cert requirements</span>
+    </div>
+    <div id="jobs-result" class="result empty">Click a chip above or type a query and press Search.</div>
+  </div>
+
+  <!-- RECRUITERS -->
+  <div id="recruiters" class="pane">
+    <div class="row">
+      <input id="recruiters-q" type="text" placeholder="e.g. cybersecurity GRC staffing agencies..." onkeydown="if(event.key==='Enter')fire('recruiters')"/>
+      <button id="recruiters-btn" class="btn" onclick="fire('recruiters')">Search ↗</button>
+    </div>
+    <div class="chips">
+      <span class="chip" onclick="quick('recruiters',this,'Top staffing agencies specializing in cybersecurity GRC and compliance roles with entry-level pipelines')">GRC staffing agencies</span>
+      <span class="chip" onclick="quick('recruiters',this,'Active LinkedIn recruiters placing entry-level GRC compliance analysts in 2025')">LinkedIn recruiters</span>
+      <span class="chip" onclick="quick('recruiters',this,'Booz Allen, Leidos, SAIC, Deloitte — do they place entry-level GRC candidates and how to apply')">Defense contractors</span>
+      <span class="chip" onclick="quick('recruiters',this,'Best cold outreach message to a cybersecurity recruiter as a career changer from healthcare')">Outreach strategy</span>
+    </div>
+    <div id="recruiters-result" class="result empty">Research staffing agencies and recruiters placing GRC candidates.</div>
+  </div>
+
+  <!-- SKILLS -->
+  <div id="skills" class="pane">
+    <p style="font-size:13px;color:#888;margin-bottom:.9rem">Your transferable skills pre-mapped. Ask the AI to expand any area.</p>
+    <div class="skill-grid">
+      <div class="scard"><div class="from">Healthcare training background</div><div class="arr">↓</div><div class="to">Security awareness training</div></div>
+      <div class="scard"><div class="from">HIPAA compliance experience</div><div class="arr">↓</div><div class="to">Regulatory compliance (NIST, SOC 2)</div></div>
+      <div class="scard"><div class="from">Adult learning & curriculum design</div><div class="arr">↓</div><div class="to">Policy documentation & training</div></div>
+      <div class="scard"><div class="from">Stakeholder communication</div><div class="arr">↓</div><div class="to">Audit facilitation & reporting</div></div>
+    </div>
+    <p style="font-size:13px;font-weight:600;margin-bottom:9px">Transferability strength</p>
+    <div class="prow"><span class="plbl">Security training design</span><div class="pbar"><div class="pfill" style="width:92%"></div></div><span class="pval">92%</span></div>
+    <div class="prow"><span class="plbl">Compliance & auditing</span><div class="pbar"><div class="pfill" style="width:88%"></div></div><span class="pval">88%</span></div>
+    <div class="prow"><span class="plbl">Policy documentation</span><div class="pbar"><div class="pfill" style="width:85%"></div></div><span class="pval">85%</span></div>
+    <div class="prow"><span class="plbl">Risk awareness</span><div class="pbar"><div class="pfill" style="width:80%"></div></div><span class="pval">80%</span></div>
+    <div class="prow"><span class="plbl">Stakeholder reporting</span><div class="pbar"><div class="pfill" style="width:83%"></div></div><span class="pval">83%</span></div>
+    <div style="margin-top:1rem">
+      <div class="row">
+        <input id="skills-q" type="text" placeholder="e.g. How to position HIPAA experience on a GRC resume?" onkeydown="if(event.key==='Enter')fire('skills')"/>
+        <button id="skills-btn" class="btn" onclick="fire('skills')">Ask AI ↗</button>
+      </div>
+      <div class="chips">
+        <span class="chip" onclick="quick('skills',this,'How should I position my HIPAA and healthcare compliance experience on a GRC analyst resume')">Resume positioning</span>
+        <span class="chip" onclick="quick('skills',this,'GRC interview questions for a career changer from healthcare and sample answers using my background')">Interview prep</span>
+        <span class="chip" onclick="quick('skills',this,'GRC keywords and frameworks someone with HIPAA compliance experience should use on their resume')">GRC keywords</span>
+      </div>
+      <div id="skills-result" class="result empty" style="min-height:80px">Ask about translating your skills to GRC.</div>
+    </div>
+  </div>
+
+  <!-- MARKET -->
+  <div id="market" class="pane">
+    <div class="row">
+      <input id="market-q" type="text" placeholder="e.g. GRC demand trends 2025, top industries hiring..." onkeydown="if(event.key==='Enter')fire('market')"/>
+      <button id="market-btn" class="btn" onclick="fire('market')">Search ↗</button>
+    </div>
+    <div class="chips">
+      <span class="chip" onclick="quick('market',this,'Cybersecurity GRC job market demand and salary trends in 2025')">2025 demand trends</span>
+      <span class="chip" onclick="quick('market',this,'Top industries hiring entry-level GRC analysts in healthcare finance government and federal')">Top hiring industries</span>
+      <span class="chip" onclick="quick('market',this,'Entry barriers for career changers into cybersecurity GRC and how to overcome them')">Entry barriers</span>
+      <span class="chip" onclick="quick('market',this,'Average salary range for entry-level GRC analyst and compliance analyst by industry in 2025')">Salary benchmarks</span>
+    </div>
+    <div id="market-result" class="result empty">Research market conditions, salary data, and hiring trends.</div>
+  </div>
+
+  <!-- PLAN -->
+  <div id="plan" class="pane">
+    <div class="row">
+      <input id="plan-q" type="text" placeholder="e.g. 90-day plan to land a GRC analyst role from healthcare..." onkeydown="if(event.key==='Enter')fire('plan')"/>
+      <button id="plan-btn" class="btn" onclick="fire('plan')">Generate ↗</button>
+    </div>
+    <div class="chips">
+      <span class="chip" onclick="quick('plan',this,'Create a detailed 90-day action plan to transition from healthcare training specialist to GRC analyst with weekly milestones')">90-day plan</span>
+      <span class="chip" onclick="quick('plan',this,'Write a strong GRC resume summary and objective for a healthcare training specialist career changer')">Resume summary</span>
+      <span class="chip" onclick="quick('plan',this,'Best job boards for entry-level GRC roles: LinkedIn, Dice, CyberSN, USAJobs, Indeed — pros and cons of each')">Best job boards</span>
+      <span class="chip" onclick="quick('plan',this,'Write a LinkedIn cold outreach message to a cybersecurity GRC recruiter as an entry-level career changer')">Recruiter message</span>
+    </div>
+    <div id="plan-result" class="result empty">Generate action plans, resume tips, and outreach scripts.</div>
+  </div>
+</div>
+
+<script>
+const SYSTEM=`You are an expert cybersecurity GRC career strategist. You specialize in placing entry-level candidates into Governance, Risk, and Compliance (GRC) roles.
+
+CANDIDATE PROFILE:
+- Current role: Training Specialist transitioning to Cybersecurity GRC
+- Background: Allied Healthcare
+- Skills: Adult learning, HIPAA compliance, policy documentation, stakeholder communication
+- Target: Entry-level GRC roles (0-3 years experience)
+- Titles: GRC Analyst, Compliance Analyst, Risk Analyst, InfoSec Analyst (GRC)
+
+Always be specific: name real companies, agencies, salary figures, platforms, and frameworks. Format with ## headings, **bold** key terms, and - bullet points.`;
+
+const CTX={
+  jobs:"Name specific employers, include salary ranges ($55k-$90k entry), list requirements, explain why this healthcare/training background fits.",
+  recruiters:"Name specific agencies and recruiters, include their specialty, website, LinkedIn approach, and whether they place entry-level or career changers.",
+  skills:"Give concrete resume bullet examples, GRC terminology to adopt, and frameworks (NIST, ISO 27001, SOC 2) that map to existing healthcare compliance knowledge.",
+  market:"Provide specific data: demand growth %, average salary by industry, top 5 hiring industries, and how this candidate's background helps overcome entry barriers.",
+  plan:"Provide week-by-week milestones, specific platforms, templates, and measurable actions. Be prescriptive and detailed."
+};
+
+const activeChip={};
+
+function md(t){
+  return t
+    .replace(/^## (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^### (.+)$/gm,'<h3 style="font-size:13px;color:#666">$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\[(.+?)\]\((.+?)\)/g,'<a href="$2" target="_blank">$1</a>')
+    .replace(/^- (.+)$/gm,'<li>$1</li>')
+    .replace(/(<li>[\s\S]*?<\/li>(\n|$))+/g,m=>'<ul>'+m+'</ul>')
+    .replace(/\n{2,}/g,'<br>')
+    .replace(/\n/g,' ');
+}
+
+function switchTab(id,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+function quick(tab,el,q){
+  document.getElementById(tab+'-q').value=q;
+  if(activeChip[tab]) activeChip[tab].classList.remove('active');
+  el.classList.add('active');
+  activeChip[tab]=el;
+  fire(tab);
+}
+
+async function fire(tab){
+  const q=(document.getElementById(tab+'-q').value||'').trim();
+  if(!q) return;
+  const btn=document.getElementById(tab+'-btn');
+  const box=document.getElementById(tab+'-result');
+  btn.disabled=true;
+  box.className='result';
+  box.innerHTML='<div class="loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span style="margin-left:4px">Researching…</span></div>';
+  try{
+    const r=await fetch('/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        system:SYSTEM,
+        messages:[{role:'user',content:q+'\n\nFocus: '+CTX[tab]}]
+      })
+    });
+    if(!r.ok) throw new Error('Server error: '+r.status);
+    const d=await r.json();
+    if(d.error) throw new Error(d.error.message);
+    const txt=(d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n\n');
+    box.className='result';
+    box.innerHTML=md(txt||'No response. Please try again.');
+  }catch(e){
+    box.className='result';
+    box.innerHTML='<span class="err">Error: '+e.message+'</span>';
+  }
+  btn.disabled=false;
+}
+</script>
+</body>
+</html>
